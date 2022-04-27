@@ -41,8 +41,6 @@ export const loadRecipe = async function (id) {
     if (state.bookmarks.some(bookmark => bookmark.id === id))
       state.recipe.bookmarked = true;
     else state.recipe.bookmarked = false;
-
-    console.log(state.recipe);
   } catch (err) {
     // Temporary error handling
     console.error(err.message, '💥💥💥');
@@ -55,7 +53,6 @@ export const loadSearchResults = async function (query) {
     state.search.query = query;
 
     const data = await AJAX(`${API_URL}?search=${query}&key=${KEY}`);
-    console.log(data);
 
     state.search.results = data.data.recipes.map(rec => {
       return {
@@ -128,8 +125,6 @@ const clearBookmarks = function () {
 
 export const uploadRecipe = async function (newRecipe) {
   try {
-    // console.log(Object.entries(newRecipe));
-
     const newArr = Object.entries(newRecipe).filter(entry =>
       entry[0].startsWith('ingredient')
     );
@@ -152,20 +147,6 @@ export const uploadRecipe = async function (newRecipe) {
       .filter(ing => ing !== '');
     console.log(ingredients);
 
-    // const ingredients = Object.entries(newRecipe) // convert into array
-    //   .filter(entry => entry[0].startsWith('ingredient') && entry[1] !== '')
-    //   .map(ing => {
-    //     // const ingArr = ing[1].replaceAll(' ', '').split(','); // ingredients will be displayed without spaces as well in our recipe if we do this.
-    //     const ingArr = ing[1].split(',').map(el => el.trim());
-    //     if (ingArr.length !== 3)
-    //       throw new Error(
-    //         'Wrong ingredient format! Please use the correct format :)'
-    //       );
-    //     const [quantity, unit, description] = ingArr;
-
-    //     return { quantity: quantity ? +quantity : null, unit, description };
-    //   });
-
     const recipe = {
       title: newRecipe.title,
       source_url: newRecipe.sourceUrl,
@@ -175,8 +156,6 @@ export const uploadRecipe = async function (newRecipe) {
       servings: +newRecipe.servings,
       ingredients,
     };
-
-    // console.log(recipe);
 
     const data = await AJAX(`${API_URL}?key=${KEY}`, recipe);
 

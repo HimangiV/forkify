@@ -11,10 +11,6 @@ import 'core-js/stable';
 import 'regenerator-runtime/runtime';
 import { async } from 'regenerator-runtime/runtime';
 
-// if (module.hot) {
-//   module.hot.accept();
-// }
-
 // REFACTORED CODE USING MVC (MODEL VIEW CONTROLLER) ARCHITECTURE-
 
 const controlRecipes = async function () {
@@ -27,7 +23,6 @@ const controlRecipes = async function () {
 
     // 2. Getting the id of recipe
     const id = window.location.hash.slice(1); // window.location- full url. hash is the value starting from # symbol- we need that hash value as our id specific to each recipe.
-    // console.log(id);
 
     // If there is no id (we load the page w/o any hash) then we'll get an error. So instead, we can create a guard clause for that-
     if (!id) return;
@@ -36,7 +31,6 @@ const controlRecipes = async function () {
 
     // 3. Loading recipe
     await model.loadRecipe(id); // This function does not explicitly return anything, so we aren't storing the result in a new variable. Instead here we'll get access to state.recipe
-    // const { recipe } = model.state; // Destructuring
 
     // 4. Rendering recipe
     recipeView.render(model.state.recipe); // render method will accept recipe data and store it into the recipeView object(class)
@@ -102,13 +96,11 @@ const controlBookmarks = function () {
 
 const controlAddRecipe = async function (newRecipe) {
   try {
-    // console.log(newRecipe);
     // Show loading spinner
     addRecipeView.renderSpinner();
 
     // Upload the new recipe data
     await model.uploadRecipe(newRecipe);
-    // console.log(model.state.recipe);
 
     // Render recipe
     recipeView.render(model.state.recipe);
